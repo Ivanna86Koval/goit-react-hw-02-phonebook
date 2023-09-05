@@ -1,7 +1,9 @@
-import { Component } from 'react'
+import { Component } from 'react';
 import { nanoid } from 'nanoid';
-import {AddContactForm} from './AddContactForm/AddContactForm'
-import {Filter} from './Filter/Filter'
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import {AddContactForm} from './AddContactForm/AddContactForm';
+import {Filter} from './Filter/Filter';
+import { ContactList } from "./ContactList/ContactList";
 
 export class App extends Component {
   state = {
@@ -13,7 +15,7 @@ export class App extends Component {
     ],
     filter: '',
   };
-  
+
   handleChange = e => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
@@ -27,7 +29,7 @@ export class App extends Component {
     };
 
     this.state.contacts.some(i => i.name === contact.name)
-      ? alert(`${name} is already in contacts`)
+      ? Notify.failure(`${name} is already in contacts`)
       : this.setState(({ contacts }) => ({
           contacts: [contact, ...contacts],
         }));
@@ -55,7 +57,6 @@ export class App extends Component {
     return (
       <div
         style={{
-          height: '100vh',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
@@ -68,6 +69,8 @@ export class App extends Component {
         <AddContactForm handleSubmit={this.handleSubmit} />
         <h2>Contacts</h2>
         <Filter filter={filter} handleChange={this.handleChange} />
+        <ContactList   contacts={this.getFilteredContacts()}
+          handleDelete={this.handleDelete}/>
       </div>
     );
   }

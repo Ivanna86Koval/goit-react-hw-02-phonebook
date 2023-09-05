@@ -1,4 +1,4 @@
-
+import propTypes from 'prop-types';
 import { Component } from 'react'
 import {Form, FormItem, FormBtn} from './AddContactForm.styled'
 
@@ -54,3 +54,6 @@ export class AddContactForm extends Component {
     );
   }
 }
+AddContactForm.propTypes = {
+  handleSubmit: propTypes.func.isRequired,
+};
